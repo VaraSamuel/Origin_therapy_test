@@ -96,7 +96,7 @@ Draft replies should be clear, empathetic, concise, and operationally useful. Th
 
 ```bash
 npm install
-export ANTHROPIC_API_KEY=your-key-here
+export ANTHROPIC_API_KEY = $$$$$$$$$$$$$$$$$$$$$$$$$
 npm run triage   # writes output.json and .trace/tool-calls.jsonl
 npm run validate # validates output.json against schema
 ```
@@ -128,7 +128,7 @@ Each inbox item is processed by a **Claude-powered agentic loop** in `src/agent.
 5. When Claude has enough information, it calls a synthetic `submit_triage` tool to return the final `ItemOutput` as structured JSON.
 6. `getToolCallsForItem(item.id)` is called after the loop to populate `tools_called` from the audit trace.
 
-Items are processed **sequentially** to keep the implementation simple and avoid rate-limit complexity within the time box.
+Items are processed **in parallel** using a worker pool (concurrency = 3). A fixed-size pool of workers drains a shared queue, preserving original item order in the output while keeping at most 3 Claude sessions open simultaneously. `AsyncLocalStorage` ensures each item's tool calls are tracked independently regardless of interleaving.
 
 The `submit_triage` tool schema enforces the full `ItemOutput` shape (minus `tools_called`, which comes from the trace), so Claude's output is always structurally valid before it reaches `buildBatchOutput`.
 
@@ -139,7 +139,7 @@ The `submit_triage` tool schema enforces the full `ItemOutput` shape (minus `too
 - **Over-escalation:** The system prompt warns against this explicitly, but edge-cases (e.g. a parent who says a child "fell") could still over-trigger.
 - **LLM hallucination of field values:** Claude could fabricate a `task_id` in `task_ids` rather than copying it from the tool result. Current mitigation: the system prompt explicitly instructs Claude to copy IDs from tool results; production mitigation would be to derive `task_ids` from the trace rather than trusting Claude's output.
 - **Guardian mismatch false positives:** The patient search is name+DOB fuzzy — a different child with the same DOB could trigger a false mismatch flag.
-- **Rate limits / latency:** Sequential processing avoids parallelism complexity but means one slow item blocks the rest.
+- **Rate limits / latency:** Parallel processing (concurrency=3) reduces total runtime but a burst of long items could still hit API rate limits; no backoff is implemented.
 
 **Production eval approach:**
 - Ground-truth label set: manually annotate a batch of synthetic items with expected `urgency`, `classification`, and which tools *should* have been called.
@@ -150,16 +150,15 @@ The `submit_triage` tool schema enforces the full `ItemOutput` shape (minus `too
 
 ## 5. What I Chose Not to Build, and Why
 
-- **Parallel item processing:** Would cut runtime by ~8x but adds concurrency management and rate-limit handling complexity. Not worth it within the 2-hour time box; easy to add later.
-- **Retry logic with backoff:** A single failed API call would crash the run. In production this is essential; for this demo the failure mode is obvious and recoverable by re-running.
+- **Retry logic with backoff:** A single failed API call will crash the run. In production this is essential; for this demo the failure mode is obvious and recoverable by re-running.
 - **Deriving `task_ids` from the trace:** More robust than relying on Claude to copy IDs correctly, but adds code complexity. The current approach is validated by the output schema and sufficient for the prototype.
 - **Confidence scores per triage decision:** Would be valuable for a human-review queue (e.g. "surface P0 items where confidence < 0.9 for immediate clinical lead review") but out of scope for this exercise.
 - **A streaming/progressive output mode:** Would let staff see triage results as they arrive rather than waiting for the full batch. Worth building for production UX.
 
 ## 6. What I Would Do with Another 4 Hours
 
+
 1. **Pre-classify for safeguarding before the main loop** — a cheap, single-tool-call check for harm/abuse keywords that short-circuits to P0 escalation without waiting for Claude to reason through it. Reduces the blast radius of a main-loop failure on the most critical item type.
 2. **Derive `task_ids` from the audit trace** — filter the trace for `create_task` calls on the item and extract the returned `task_id` values rather than trusting Claude's output field. Same for `escalation`.
-3. **Parallel processing with a concurrency limiter** — process items in batches of 3–4 with exponential backoff on rate-limit errors.
-4. **Regression test suite** — fixture-based tests that run `npm run triage` against a known inbox and assert on urgency, classification, and minimum tool call coverage per item.
+3. **Regression test suite** — fixture-based tests that run `npm run triage` against a known inbox and assert on urgency, classification, and minimum tool call coverage per item.
 5. **Better handling of ambiguous guardian matches** — when `search_patient` returns a close-but-not-identical match, explicitly ask the patient search tool for all active patients with that DOB and surface the discrepancy more clearly in `missing_info`.

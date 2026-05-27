@@ -319,14 +319,24 @@ const TOOL_DEFINITIONS: Anthropic.Tool[] = [
 
 type SubmitInput = Omit<ItemOutput, "tools_called">;
 
+const CONCURRENCY = 3;
+
 export async function runAgent(inbox: InboxItem[]): Promise<ItemOutput[]> {
-  const results: ItemOutput[] = [];
-  for (const item of inbox) {
-    process.stderr.write(`[triage] ${item.id}: ${item.subject}\n`);
-    const output = await withItemContext(item.id, () => triageItem(item));
-    results.push(output);
+  const results: (ItemOutput | null)[] = new Array(inbox.length).fill(null);
+  const queue = inbox.map((item, index) => ({ item, index }));
+
+  async function worker(): Promise<void> {
+    while (true) {
+      const next = queue.shift();
+      if (!next) break;
+      const { item, index } = next;
+      process.stderr.write(`[triage] ${item.id}: ${item.subject}\n`);
+      results[index] = await withItemContext(item.id, () => triageItem(item));
+    }
   }
-  return results;
+
+  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+  return results as ItemOutput[];
 }
 
 async function triageItem(item: InboxItem): Promise<ItemOutput> {
