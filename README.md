@@ -96,7 +96,7 @@ Draft replies should be clear, empathetic, concise, and operationally useful. Th
 
 ```bash
 npm install
-export ANTHROPIC_API_KEY = $$$$$$$$$$$$$$$$$$$$$$$$$
+export ANTHROPIC_API_KEY=your-key-here
 npm run triage   # writes output.json and .trace/tool-calls.jsonl
 npm run validate # validates output.json against schema
 ```
@@ -108,7 +108,13 @@ npm run triage   -- --input data/inbox.json --output output.json --trace .trace/
 npm run validate -- --input data/inbox.json --output output.json --trace .trace/tool-calls.jsonl
 ```
 
-Expected runtime: ~2–3 minutes for 8 items.
+To see per-call token and cache hit stats:
+
+```bash
+DEBUG=1 npm run triage
+```
+
+Expected runtime: ~1–2 minutes for 8 items (parallel, concurrency=3).
 
 ## 2. Stack and Runtime
 
