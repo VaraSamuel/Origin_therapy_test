@@ -426,13 +426,15 @@ async function triageItem(item: InboxItem): Promise<ItemOutput> {
       }),
     );
 
-    const { input_tokens, output_tokens, cache_read_input_tokens, cache_creation_input_tokens } = response.usage;
-    process.stderr.write(
-      `[triage] ${item.id} usage: in=${input_tokens} out=${output_tokens}` +
-      (cache_read_input_tokens ? ` cache_read=${cache_read_input_tokens}` : "") +
-      (cache_creation_input_tokens ? ` cache_write=${cache_creation_input_tokens}` : "") +
-      "\n",
-    );
+    if (process.env.DEBUG) {
+      const { input_tokens, output_tokens, cache_read_input_tokens, cache_creation_input_tokens } = response.usage;
+      process.stderr.write(
+        `[triage] ${item.id} usage: in=${input_tokens} out=${output_tokens}` +
+        (cache_read_input_tokens ? ` cache_read=${cache_read_input_tokens}` : "") +
+        (cache_creation_input_tokens ? ` cache_write=${cache_creation_input_tokens}` : "") +
+        "\n",
+      );
+    }
 
     const toolResultContent: Anthropic.ToolResultBlockParam[] = [];
 
