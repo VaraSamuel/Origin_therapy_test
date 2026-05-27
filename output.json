@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-27T16:21:06.168Z",
+  "generated_at": "2026-05-27T16:39:11.674Z",
   "summary": {
     "total_items": 8,
     "p0_count": 1,
@@ -24,20 +24,20 @@
         "member_id": "BCBS-884200"
       },
       "missing_info": [
-        "Completed new patient intake forms",
-        "Prior authorization from BCBS (auth_required=true)"
+        "Prior authorization from BCBS PPO (auth_required=true — must be obtained before evaluation can be confirmed)",
+        "Completed new patient intake/registration paperwork",
+        "Referral document (referral_item_1.pdf) should be filed to new patient chart once created"
       ],
-      "recommended_next_action": "Intake team should contact Daniel Lee by Tuesday 4/28 to initiate intake paperwork; billing team should concurrently pursue BCBS prior authorization before confirming the held slot on 5/1 at 3:30 PM.",
-      "draft_reply": "Dear Daniel,\n\nThank you for reaching out to Cedar Kids Therapy! We have received the referral from Dr. Priya Nair for Emma and are excited to support her.\n\nWe are currently holding a speech-language pathology evaluation appointment for Emma on Thursday, May 1st at 3:30 PM with Maya Chen, MS CCC-SLP — which aligns with your preferred after-school availability on Tuesdays or Thursdays.\n\nBefore we can confirm this appointment, our team needs to:\n1. Complete new patient intake paperwork with you.\n2. Obtain insurance authorization from Blue Cross Blue Shield.\n\nA member of our intake team will be in touch by tomorrow to walk you through next steps and send the necessary forms.\n\nIn the meantime, if you have any questions, please don't hesitate to contact us at [clinic phone number].\n\nWarm regards,\nCedar Kids Therapy",
+      "recommended_next_action": "Intake team should obtain BCBS PPO prior authorization, send new patient paperwork to Daniel Lee, and confirm the May 1st 3:30 PM slot with Maya Chen by Tuesday April 28th.",
+      "draft_reply": "Dear Daniel,\n\nThank you for reaching out to Cedar Kids Therapy! We received a referral from Dr. Priya Nair at Northside Pediatrics for Emma's speech-language evaluation, and we're happy to help.\n\nWe have a tentative opening that matches your preference — Thursday, May 1st at 3:30 PM with Maya Chen, MS CCC-SLP. This slot is currently on hold pending our team's review.\n\nBefore we can confirm the appointment, our intake team will need to:\n1. Verify prior authorization with Blue Cross Blue Shield PPO (required for this plan).\n2. Send you new patient paperwork to complete.\n\nA member of our team will be in touch shortly — no later than Tuesday, April 28th — to confirm the appointment, walk you through next steps, and answer any questions you may have.\n\nIf you need to reach us sooner, please call our front desk at [PRACTICE PHONE NUMBER].\n\nWe look forward to working with Emma!\n\nWarm regards,\nCedar Kids Therapy",
       "task_ids": [
-        "task_01ksn3kfa9e4kqgerkgjj7ehtm",
-        "task_01ksn3kfaa4nmrf7q4z8kp6k8f"
+        "task_01ksn4sny4nzj01b2yp8t8zzq0"
       ],
       "escalation": null,
-      "decision_rationale": "This is a complete new SLP referral from a licensed physician with all intake fields present. BCBS PPO was verified as in-network and active, but prior authorization is required, so the slot hold cannot be confirmed without billing clearance first. The earliest after-school Tuesday/Thursday SLP slot (5/1 at 3:30 PM with Maya Chen) was held for human review pending intake and auth completion.",
+      "decision_rationale": "This is a complete new SLP referral from a pediatrician with full intake data. BCBS PPO was verified as active and in-network, so no benefits conversation is needed; however, the billing system flagged auth_required=true, which must be resolved before the appointment is confirmed. The best slot matching the family's \"after school Tuesdays or Thursdays\" preference is Thursday May 1st at 3:30 PM with Maya Chen, which has been placed on a pending-review hold for staff to confirm after auth is secured.",
       "tools_called": [
         {
-          "call_id": "01KSN3JW3V4352G5GH8Z6QVVN1",
+          "call_id": "01KSN4S44Z4FDWG33H1ME3XNP5",
           "name": "search_patient",
           "args": {
             "dob": "2018-09-04",
@@ -46,7 +46,7 @@
           "result_summary": "0 patient matches"
         },
         {
-          "call_id": "01KSN3JW3WPSNABHB150XXJC3C",
+          "call_id": "01KSN4S451JRT8X3A7S08PG89R",
           "name": "verify_insurance",
           "args": {
             "member_id": "BCBS-884200",
@@ -55,7 +55,7 @@
           "result_summary": "insurance status: in_network (Blue Cross Blue Shield PPO)"
         },
         {
-          "call_id": "01KSN3JW3WDP7ZYXDX6TYED95G",
+          "call_id": "01KSN4S451W9HQQ7F8WRZBS7N4",
           "name": "lookup_policy",
           "args": {
             "topic": "insurance"
@@ -63,7 +63,7 @@
           "result_summary": "3 policy snippets for insurance"
         },
         {
-          "call_id": "01KSN3JZPQBSRGDKNHFHDRQ5AK",
+          "call_id": "01KSN4S7MJH2AC6PN8FB98TADA",
           "name": "find_slots",
           "args": {
             "discipline": "SLP",
@@ -72,46 +72,42 @@
           "result_summary": "4 matching slots; earliest 2026-04-29T09:00:00-07:00 with Maya Chen, MS CCC-SLP"
         },
         {
-          "call_id": "01KSN3KFA8MB8E9Q9NTPT3DXP0",
+          "call_id": "01KSN4S7MKZ959XTEGAD58VVQJ",
+          "name": "lookup_policy",
+          "args": {
+            "topic": "scheduling"
+          },
+          "result_summary": "2 policy snippets for scheduling"
+        },
+        {
+          "call_id": "01KSN4SNY3WHWXVYRK06WTDXRP",
           "name": "hold_slot",
           "args": {
             "patient_ref": "Emma Lee",
             "slot_id": "slot_slp_maya_2026_05_01_1530"
           },
-          "result_summary": "created pending_review hold hold_01ksn3kfa8tnfgydxe0r655zxb until 2026-05-27T16:47:09.448Z"
+          "result_summary": "created pending_review hold hold_01ksn4sny3rxvpq2vhkhay895x until 2026-05-27T17:08:01.411Z"
         },
         {
-          "call_id": "01KSN3KFAA79MN8S83600A3CC6",
+          "call_id": "01KSN4SNY4MR976G2NTTANNVDR",
           "name": "create_task",
           "args": {
             "assignee": "intake",
             "due": "2026-04-28",
-            "notes": "New patient referral from Dr. Priya Nair at Northside Pediatrics (fax referral, item_1). Concern: articulation delay and reduced intelligibility. Parent: Daniel Lee, 555-0101, daniel.lee@example.com. Insurance verified: BCBS PPO in-network (BCBS-884200), copay $30, auth required. A hold has been placed on slot_slp_maya_2026_05_01_1530 (Thursday 5/1/26 at 3:30 PM with Maya Chen, MS CCC-SLP) — pending intake confirmation and insurance auth. Please complete new patient intake paperwork and confirm auth before finalizing. Referral PDF attached in original fax item.",
-            "title": "New SLP Referral – Emma Lee (DOB 2018-09-04)"
+            "notes": "New patient referral from Dr. Priya Nair at Northside Pediatrics (fax received 2026-04-27). Child: Emma Lee, DOB 2018-09-04. Concern: articulation delay and reduced intelligibility. Discipline: SLP evaluation. Parent: Daniel Lee, 555-0101, daniel.lee@example.com. Insurance: Blue Cross Blue Shield PPO, Member ID BCBS-884200 — verified active in-network. NOTE: auth_required=true per billing system; prior authorization must be obtained before evaluation. Preferred availability: after school Tuesdays or Thursdays. Slot held for pending review: Maya Chen MS CCC-SLP, Thursday 2026-05-01 at 3:30 PM (slot_slp_maya_2026_05_01_1530). Please confirm auth, complete new patient intake paperwork, and confirm slot with family.",
+            "title": "New SLP referral - Emma Lee (new patient)"
           },
-          "result_summary": "created task task_01ksn3kfa9e4kqgerkgjj7ehtm for intake"
+          "result_summary": "created task task_01ksn4sny4nzj01b2yp8t8zzq0 for intake"
         },
         {
-          "call_id": "01KSN3KFAA1F6A6PJQPGPJMMMY",
-          "name": "create_task",
-          "args": {
-            "assignee": "billing",
-            "due": "2026-04-28",
-            "notes": "New patient Emma Lee (DOB 2018-09-04) referred for SLP evaluation. BCBS PPO verified in-network and active (member ID BCBS-884200, copay $30), but auth_required=true. Please initiate prior authorization for SLP evaluation before the slot hold (5/1/26, 3:30 PM with Maya Chen) is confirmed. Coordinate with intake team.",
-            "title": "Insurance Auth Required – Emma Lee (BCBS PPO, BCBS-884200)"
-          },
-          "result_summary": "created task task_01ksn3kfaa4nmrf7q4z8kp6k8f for billing"
-        },
-        {
-          "call_id": "01KSN3KFAB7FBZMD17SGCX0SP0",
+          "call_id": "01KSN4SNY5ZC5GYFZC2DDD3EAM",
           "name": "draft_message",
           "args": {
-            "body": "Dear Daniel,\n\nThank you for reaching out to Cedar Kids Therapy! We have received the referral from Dr. Priya Nair for Emma and are excited to support her.\n\nWe are currently holding a speech-language pathology evaluation appointment for Emma on Thursday, May 1st at 3:30 PM with Maya Chen, MS CCC-SLP — which aligns with your preferred after-school availability on Tuesdays or Thursdays.\n\nBefore we can confirm this appointment, our team needs to:\n1. Complete new patient intake paperwork with you.\n2. Obtain insurance authorization from Blue Cross Blue Shield.\n\nA member of our intake team will be in touch by tomorrow to walk you through next steps and send the necessary forms.\n\nIn the meantime, if you have any questions, please don't hesitate to contact us at [clinic phone number].\n\nWarm regards,\nCedar Kids Therapy",
+            "body": "Dear Daniel,\n\nThank you for reaching out to Cedar Kids Therapy! We received a referral from Dr. Priya Nair at Northside Pediatrics for Emma's speech-language evaluation, and we're happy to help.\n\nWe have a tentative opening that matches your preference — Thursday, May 1st at 3:30 PM with Maya Chen, MS CCC-SLP. This slot is currently on hold pending our team's review.\n\nBefore we can confirm the appointment, our intake team will need to:\n1. Verify prior authorization with Blue Cross Blue Shield PPO (required for this plan).\n2. Send you new patient paperwork to complete.\n\nA member of our team will be in touch shortly — no later than Tuesday, April 28th — to confirm the appointment, walk you through next steps, and answer any questions you may have.\n\nIf you need to reach us sooner, please call our front desk at [PRACTICE PHONE NUMBER].\n\nWe look forward to working with Emma!\n\nWarm regards,\nCedar Kids Therapy",
             "channel": "email",
-            "language": "en",
             "recipient": "Daniel Lee"
           },
-          "result_summary": "created draft draft_01ksn3kfabm2pzd9ensdbdqmww (email, en)"
+          "result_summary": "created draft draft_01ksn4sny5f72nwebp5gya053x (email, en)"
         }
       ]
     },
@@ -127,29 +123,29 @@
         "discipline": [
           "SLP"
         ],
-        "diagnosis_or_concern": "Speech therapy evaluation requested; safeguarding concern — father described as 'getting rough' with child during weekends; child showing increased clinginess",
+        "diagnosis_or_concern": "Speech therapy evaluation requested; parent also disclosed possible physical harm by father during weekend visits ('dad started getting rough with him')",
         "payer": null,
         "member_id": null
       },
       "missing_info": [
-        "Date of birth (specific)",
+        "Date of birth (exact)",
         "Insurance payer",
         "Insurance member ID",
-        "Referral source / referring provider (if any)"
+        "Referral or diagnosis documentation"
       ],
-      "recommended_next_action": "Clinical lead must review the safeguarding disclosure immediately, assess mandated reporter obligations, and authorize and guide the callback to Maria Gomez before any scheduling discussion proceeds.",
-      "draft_reply": "Hi Maria, thank you for reaching out to Cedar Kids Therapy. We received your voicemail about your son Leo and we want to make sure we give your family the care and attention you deserve. A member of our team will be calling you back shortly at 555-0102. We appreciate your patience and look forward to speaking with you soon.",
+      "recommended_next_action": "Clinical lead must review the safeguarding disclosure immediately and assess mandatory reporting obligations before any outbound contact is made with the family.",
+      "draft_reply": "Hi Maria, thank you for reaching out to Cedar Kids Therapy about Leo. We received your voicemail and a member of our team will be in touch with you shortly at 555-0102. We appreciate you contacting us and look forward to speaking with you soon.",
       "task_ids": [
-        "task_01ksn3mbgb3kys33vqdqbqjxgb"
+        "task_01ksn4sfmpehk2gwp747mvas02"
       ],
       "escalation": {
-        "reason": "Possible child safeguarding concern: caller (Maria Gomez) disclosed that the child's father has been 'getting rough' with Leo (age 6) during weekend visits, and the child has shown behavioral changes (increased clinginess). This may indicate physical abuse or unsafe caregiving and requires immediate clinical lead review.",
+        "reason": "Parent (Maria Gomez) disclosed in voicemail that the child's father \"started getting rough with him during weekends\" — this constitutes a potential disclosure of physical harm/unsafe caregiving involving a 6-year-old child (Leo Gomez). Requires immediate clinical lead review and mandatory reporting assessment.",
         "severity": "P0"
       },
-      "decision_rationale": "The voicemail contains an explicit disclosure that Leo's father has been \"getting rough with him during weekends,\" accompanied by a behavioral change (increased clinginess) — language that meets the safeguarding threshold for possible physical abuse or unsafe caregiving. Per policy, this is an immediate P0 requiring clinical lead review before any other action, including scheduling. A neutral acknowledgement was drafted for staff review; no investigative advice or clinical guidance was included in the draft reply.",
+      "decision_rationale": "The voicemail contains a clear disclosure of potential physical harm to a child (\"dad started getting rough with him during weekends\"), which triggers an immediate P0 safeguarding escalation per policy — regardless of the concurrent SLP referral request. Leo Gomez has no existing patient record. A neutral acknowledgement draft has been prepared for staff review only; no investigative advice or clinical guidance was included, and no slots were held pending clinical lead review and mandatory reporting assessment.",
       "tools_called": [
         {
-          "call_id": "01KSN3M22YV7N1MBTXVDYXR6D9",
+          "call_id": "01KSN4S50CZN2TS7DXACV6YCA4",
           "name": "lookup_policy",
           "args": {
             "topic": "safeguarding"
@@ -157,7 +153,7 @@
           "result_summary": "2 policy snippets for safeguarding"
         },
         {
-          "call_id": "01KSN3M230NVTSFVPR7G8PP6H0",
+          "call_id": "01KSN4S50DKMGJ2YVM6S65NS23",
           "name": "search_patient",
           "args": {
             "name": "Leo Gomez"
@@ -165,36 +161,44 @@
           "result_summary": "0 patient matches"
         },
         {
-          "call_id": "01KSN3M231VQ72VBGFXGNKF74X",
+          "call_id": "01KSN4S50D50GG6FYC9AP866D0",
+          "name": "lookup_policy",
+          "args": {
+            "topic": "service_lines"
+          },
+          "result_summary": "2 policy snippets for service_lines"
+        },
+        {
+          "call_id": "01KSN4SFMNSNY328CD7BTSX2MR",
           "name": "escalate",
           "args": {
             "item_id": "item_2",
-            "reason": "Possible child safeguarding concern: caller (Maria Gomez) disclosed that the child's father has been \"getting rough\" with Leo (age 6) during weekend visits, and the child has shown behavioral changes (increased clinginess). This may indicate physical abuse or unsafe caregiving and requires immediate clinical lead review.",
+            "reason": "Parent (Maria Gomez) disclosed in voicemail that the child's father \"started getting rough with him during weekends\" — this constitutes a potential disclosure of physical harm/unsafe caregiving involving a 6-year-old child (Leo Gomez). Requires immediate clinical lead review and mandatory reporting assessment.",
             "severity": "P0"
           },
-          "result_summary": "created escalation esc_01ksn3m231nkqyag2spra60e2m severity P0"
+          "result_summary": "created escalation esc_01ksn4sfmn4nr0h5mk1rerbjf8 severity P0"
         },
         {
-          "call_id": "01KSN3MBGB536DJZ2Q0F316H9Z",
+          "call_id": "01KSN4SFMP1QK1KHQX775GTWF4",
           "name": "create_task",
           "args": {
             "assignee": "clinical_lead",
-            "due": "2026-04-27",
-            "notes": "Voicemail received Sun 4/27 at 7:43 PM from Maria Gomez (555-0102) requesting an SLP evaluation for her 6-year-old son Leo. During the voicemail, she disclosed that Leo \"has been more clingy since his dad started getting rough with him during weekends.\" This language may indicate physical abuse or unsafe caregiving. Leo is NOT an existing patient (search returned no matches). Clinical lead must review this item immediately, determine whether mandated reporter obligations apply, and direct front desk on how to proceed with the callback. Do NOT provide investigative advice to the family. Escalation ID: esc_01ksn3m231nkqyag2spra60e2m.",
-            "title": "URGENT P0 Safeguarding Review – Leo Gomez (age 6)"
+            "due": "2026-04-28",
+            "notes": "Voicemail received Sun 4/27 at 7:43 PM from Maria Gomez (555-0102) requesting SLP evaluation for her son Leo, age 6. During the message she stated: \"he has been more clingy since his dad started getting rough with him during weekends.\" This is a potential disclosure of physical harm/unsafe caregiving by a non-custodial parent. Clinical lead must review immediately for mandatory reporting obligations. No investigative advice has been communicated to the family. Draft neutral acknowledgement prepared for staff review before any outbound contact. Leo Gomez is NOT found as an existing patient in the system.",
+            "title": "P0 Safeguarding Review – Leo Gomez (age 6)"
           },
-          "result_summary": "created task task_01ksn3mbgb3kys33vqdqbqjxgb for clinical_lead"
+          "result_summary": "created task task_01ksn4sfmpehk2gwp747mvas02 for clinical_lead"
         },
         {
-          "call_id": "01KSN3MBGC0MFWQVGAMBS3V6JD",
+          "call_id": "01KSN4SFMQ34AD7KZNV6GPW011",
           "name": "draft_message",
           "args": {
-            "body": "Hi Maria, thank you for reaching out to Cedar Kids Therapy. We received your voicemail about your son Leo and we want to make sure we give your family the care and attention you deserve. A member of our team will be calling you back shortly at 555-0102. We appreciate your patience and look forward to speaking with you soon.",
+            "body": "Hi Maria, thank you for reaching out to Cedar Kids Therapy about Leo. We received your voicemail and a member of our team will be in touch with you shortly at 555-0102. We appreciate you contacting us and look forward to speaking with you soon.",
             "channel": "phone",
             "language": "en",
             "recipient": "Maria Gomez"
           },
-          "result_summary": "created draft draft_01ksn3mbgcy7xb2qv2w7sh8sf9 (phone, en)"
+          "result_summary": "created draft draft_01ksn4sfmqr2xjswn7pxtpqn4m (phone, en)"
         }
       ]
     },
@@ -214,17 +218,19 @@
         "payer": "Kaiser HMO",
         "member_id": "KSR-4471"
       },
-      "missing_info": [],
-      "recommended_next_action": "Billing team must complete a benefits conversation with Rachel Brooks about Kaiser HMO out-of-network status before any slot can be held; proceed to scheduling only after family confirms they wish to continue.",
-      "draft_reply": "Dear Rachel,\n\nThank you for reaching out to Cedar Kids Therapy! We received a referral from Dr. Helena Yu at Westside Pediatrics for Owen, and we're glad to connect with your family.\n\nBefore we can schedule an OT evaluation, we want to let you know that Kaiser HMO is currently out-of-network with our practice. This means there may be out-of-pocket costs involved. A member of our billing team will be reaching out to you shortly at 555-0103 to walk through your benefits, answer any questions, and help you understand your options before we move forward.\n\nWe want to make sure you have all the information you need to make the best decision for Owen. If you have any questions in the meantime, please don't hesitate to contact us.\n\nWarm regards,\nCedar Kids Therapy",
+      "missing_info": [
+        "Benefits conversation with family required before any slot can be held (Kaiser HMO is out-of-network)"
+      ],
+      "recommended_next_action": "Billing team must complete an out-of-network benefits conversation with Rachel Brooks before any OT slot is held for Owen.",
+      "draft_reply": "Dear Rachel,\n\nThank you for reaching out to Cedar Kids Therapy! We received the referral from Dr. Helena Yu at Westside Pediatrics for Owen's occupational therapy evaluation.\n\nWe're excited to potentially work with Owen. Before we can schedule an appointment, we need to share some important information about his insurance coverage. Kaiser HMO is not currently in our network, which means there are some out-of-pocket cost considerations we'd like to walk you through before moving forward.\n\nA member of our billing team will be in touch with you shortly to have a brief benefits conversation. If you'd like to reach us in the meantime, please don't hesitate to call our office.\n\nWe look forward to speaking with you soon!\n\nWarm regards,\nCedar Kids Therapy",
       "task_ids": [
-        "task_01ksn3n4tfwhctvsdx5s6dp121"
+        "task_01ksn4seqn6a41nh2qrvjjq9vt"
       ],
       "escalation": null,
-      "decision_rationale": "This is a new OT referral with complete intake data, but Kaiser HMO is confirmed out-of-network per both policy lookup and the billing system verification. Per policy, no slot may be held until a benefits conversation is completed with the family. Scheduling steps (find_slots, hold_slot) were intentionally skipped until OON status is resolved. The referral is otherwise complete — no missing information — so this is a standard P2 workflow pending the billing team's outreach.",
+      "decision_rationale": "This is a new OT referral for Owen Brooks (DOB 2020-02-11) from Dr. Helena Yu; no existing patient record was found. Insurance was verified as Kaiser HMO — confirmed out-of-network — which per policy requires a benefits conversation before any slot can be held or offered to the family. No slots were searched or held; a billing task was created for today and a draft acknowledgement email was prepared for Rachel Brooks explaining the next step.",
       "tools_called": [
         {
-          "call_id": "01KSN3MT774TBVSB2Y02QXXYJG",
+          "call_id": "01KSN4S4Y1R9SBH4BTGKWPS96D",
           "name": "search_patient",
           "args": {
             "dob": "2020-02-11",
@@ -233,7 +239,7 @@
           "result_summary": "0 patient matches"
         },
         {
-          "call_id": "01KSN3MT781BS19GNCSDVQ5T8X",
+          "call_id": "01KSN4S4Y28QT39F606ZTRSSY0",
           "name": "verify_insurance",
           "args": {
             "member_id": "KSR-4471",
@@ -242,7 +248,7 @@
           "result_summary": "insurance status: out_of_network (Kaiser HMO)"
         },
         {
-          "call_id": "01KSN3MT79YTAWR3M8XG9F9G1H",
+          "call_id": "01KSN4S4Y34M6AW7TE4QAJ8CMY",
           "name": "lookup_policy",
           "args": {
             "topic": "insurance"
@@ -250,25 +256,25 @@
           "result_summary": "3 policy snippets for insurance"
         },
         {
-          "call_id": "01KSN3N4TFBKQE6K0HEDWGYHX2",
+          "call_id": "01KSN4SEQN5P4DVMX5EDFPEYDR",
           "name": "create_task",
           "args": {
             "assignee": "billing",
             "due": "2026-04-28",
-            "notes": "New OT referral received via fax from Westside Pediatrics (Dr. Helena Yu) on 4/27. Child: Owen Brooks, DOB 2020-02-11. Parent: Rachel Brooks, 555-0103, rachel.brooks@example.com. Insurance: Kaiser HMO, Member ID: KSR-4471. Kaiser is OUT-OF-NETWORK. Per policy, a benefits conversation must be completed with the family before any slot can be held. Please contact Rachel Brooks, explain OON status, discuss potential out-of-pocket costs, and confirm whether family wishes to proceed. Coordinate with intake to schedule once benefits conversation is complete.",
-            "title": "OON Benefits Conversation Required – Owen Brooks (Kaiser HMO)"
+            "notes": "New OT referral received for Owen Brooks (DOB: 2020-02-11) from Dr. Helena Yu at Westside Pediatrics. Insurance verified as Kaiser HMO (Member ID: KSR-4471) — OUT OF NETWORK. Per policy, a benefits conversation with the family must be completed before any appointment slot is held. Parent contact: Rachel Brooks, 555-0103, rachel.brooks@example.com. Concern: sensory processing and feeding tolerance. Family prefers morning appointments.",
+            "title": "OON Benefits Conversation Required — Owen Brooks (Kaiser HMO)"
           },
-          "result_summary": "created task task_01ksn3n4tfwhctvsdx5s6dp121 for billing"
+          "result_summary": "created task task_01ksn4seqn6a41nh2qrvjjq9vt for billing"
         },
         {
-          "call_id": "01KSN3N4THW4E6HDKBGRQ8AECQ",
+          "call_id": "01KSN4SEQPVB9XG9RVZSBYVK5D",
           "name": "draft_message",
           "args": {
-            "body": "Dear Rachel,\n\nThank you for reaching out to Cedar Kids Therapy! We received a referral from Dr. Helena Yu at Westside Pediatrics for Owen, and we're glad to connect with your family.\n\nBefore we can schedule an OT evaluation, we want to let you know that Kaiser HMO is currently out-of-network with our practice. This means there may be out-of-pocket costs involved. A member of our billing team will be reaching out to you shortly at 555-0103 to walk through your benefits, answer any questions, and help you understand your options before we move forward.\n\nWe want to make sure you have all the information you need to make the best decision for Owen. If you have any questions in the meantime, please don't hesitate to contact us.\n\nWarm regards,\nCedar Kids Therapy",
+            "body": "Dear Rachel,\n\nThank you for reaching out to Cedar Kids Therapy! We received the referral from Dr. Helena Yu at Westside Pediatrics for Owen's occupational therapy evaluation.\n\nWe're excited to potentially work with Owen. Before we can schedule an appointment, we need to share some important information about his insurance coverage. Kaiser HMO is not currently in our network, which means there are some out-of-pocket cost considerations we'd like to walk you through before moving forward.\n\nA member of our billing team will be in touch with you shortly to have a brief benefits conversation. If you'd like to reach us in the meantime, please don't hesitate to call our office.\n\nWe look forward to speaking with you soon!\n\nWarm regards,\nCedar Kids Therapy",
             "channel": "email",
             "recipient": "Rachel Brooks"
           },
-          "result_summary": "created draft draft_01ksn3n4th61ac23tw2zvf4901 (email, en)"
+          "result_summary": "created draft draft_01ksn4seqpgw3shdtkfr76yx51 (email, en)"
         }
       ]
     },
@@ -280,30 +286,29 @@
       "extracted_intake": {
         "child_name": "Mateo Ramirez",
         "dob_or_age": "2019-03-15",
-        "parent_contact": "Carla Mendez – 555-0104, carla.mendez@example.com",
+        "parent_contact": "Carla Mendez, carla.mendez@example.com, 555-0104",
         "discipline": [
           "PT"
         ],
-        "diagnosis_or_concern": "Toe walking and frequent tripping – PT evaluation requested",
+        "diagnosis_or_concern": "Toe walking and frequent tripping — PT evaluation requested",
         "payer": "Aetna PPO",
         "member_id": "AET-9910"
       },
       "missing_info": [
-        "Guardian identity verification: existing patient record 'Mateo Ramirez Jr.' (pat_mateo_ramirez_jr) lists guardian as Sofia Ramirez, not Carla Mendez — must confirm authorized relationship before scheduling",
-        "Prior authorization: Aetna PPO flags auth_required=true; billing must confirm auth status before PT eval is booked",
-        "Pediatrician referral document: mentioned by sender but no attachment included in email"
+        "Physician referral document not attached (pediatrician reportedly sent separately — staff should confirm receipt)",
+        "Guardian identity unresolved: existing record 'Mateo Ramirez Jr.' lists guardian as 'Sofia Ramirez,' not Carla Mendez — relationship and record match must be confirmed before scheduling"
       ],
-      "recommended_next_action": "Intake staff should call Carla Mendez (555-0104) today to verify her guardian relationship to Mateo Ramirez Jr. and reconcile the existing patient record before holding any PT slot; billing should simultaneously confirm prior auth requirements with Aetna.",
-      "draft_reply": "Hi Carla,\n\nThank you for reaching out to Cedar Kids Therapy on behalf of Mateo! We received your referral request for a physical therapy evaluation and are happy to help.\n\nOur team is reviewing the information you provided and will be in touch shortly to confirm a few details before scheduling Mateo's PT evaluation. Please expect a call or email from us within 1 business day.\n\nIn the meantime, if you have any questions, feel free to reply to this message or call us directly.\n\nWarm regards,\nCedar Kids Therapy",
+      "recommended_next_action": "Intake staff should call Carla Mendez at 555-0104 today to verify her relationship to the patient and resolve the guardian name discrepancy before confirming the pending slot hold with Priya Shah, PT on 2026-04-29 at 1:00 PM.",
+      "draft_reply": "Hi Carla,\n\nThank you for reaching out to Cedar Kids Therapy on behalf of Mateo! We received your referral request for a PT evaluation and are glad to help.\n\nWe've located a potential match in our system and our intake team will be in touch shortly to confirm a few details before booking his appointment. Our team will reach you at 555-0104.\n\nIn the meantime, we've confirmed that Aetna PPO is in-network with our practice. Please note that your plan may require prior authorization before services begin — our billing team will handle that process and keep you informed.\n\nWe look forward to connecting with you soon!\n\nWarm regards,\nCedar Kids Therapy",
       "task_ids": [
-        "task_01ksn3nzc1jys3gz79kjrvczwh",
-        "task_01ksn3nzc2jk2h15k130emt3xe"
+        "task_01ksn4tfyhdryrxn7jntzfpwxa",
+        "task_01ksn4tfyhd48xt14za8wbx7n9"
       ],
       "escalation": null,
-      "decision_rationale": "This is a new PT referral with verified in-network Aetna PPO coverage (active, $30 copay), so the payer path is clear. However, the patient search returned a close but non-identical match — \"Mateo Ramirez Jr.\" with a different guardian name (Sofia Ramirez vs. Carla Mendez) — which must be resolved before any slot is held to protect patient privacy and authorization integrity. Two PT evaluation slots are available (April 29 and May 6 with Priya Shah), but the slot hold is deliberately deferred pending guardian verification and prior auth confirmation.",
+      "decision_rationale": "This is a new PT referral with complete intake data and verified in-network Aetna PPO coverage (auth required). A partial patient record match was found — \"Mateo Ramirez Jr.\" with a different guardian (Sofia Ramirez vs. Carla Mendez) — which requires human review before the pending slot hold can be confirmed. No safeguarding concerns or same-day urgency are present, so P2 is the appropriate urgency level.",
       "tools_called": [
         {
-          "call_id": "01KSN3NMCWMGQJRQ5CX4GHK7RJ",
+          "call_id": "01KSN4SX58CMFVVVQTM6PQ1Q0D",
           "name": "search_patient",
           "args": {
             "dob": "2019-03-15",
@@ -312,7 +317,7 @@
           "result_summary": "1 patient match: Mateo Ramirez Jr. (2019-03-15)"
         },
         {
-          "call_id": "01KSN3NMCXA8AGSC5PFAEGM9B8",
+          "call_id": "01KSN4SX593405RS2FGMMVWFPF",
           "name": "verify_insurance",
           "args": {
             "member_id": "AET-9910",
@@ -321,7 +326,7 @@
           "result_summary": "insurance status: in_network (Aetna PPO)"
         },
         {
-          "call_id": "01KSN3NMCXGBRNCRAR6R5N69Z8",
+          "call_id": "01KSN4SX5AE79MVCP2SVCXM0MY",
           "name": "lookup_policy",
           "args": {
             "topic": "insurance"
@@ -329,7 +334,7 @@
           "result_summary": "3 policy snippets for insurance"
         },
         {
-          "call_id": "01KSN3NMCYZYW2P7PX74CPFHXA",
+          "call_id": "01KSN4SX5A5SXB9HXAR04M7F1C",
           "name": "lookup_policy",
           "args": {
             "topic": "scheduling"
@@ -337,7 +342,7 @@
           "result_summary": "2 policy snippets for scheduling"
         },
         {
-          "call_id": "01KSN3NZC07BH5C9TB9S1P5MDB",
+          "call_id": "01KSN4T0Y7MPVVVDYMSHPZN73K",
           "name": "find_slots",
           "args": {
             "discipline": "PT"
@@ -345,37 +350,45 @@
           "result_summary": "2 matching slots; earliest 2026-04-29T13:00:00-07:00 with Priya Shah, PT, DPT"
         },
         {
-          "call_id": "01KSN3NZC1H4EJB04G543300RT",
+          "call_id": "01KSN4TFYGTAX2B8YBA0SBHFHW",
+          "name": "hold_slot",
+          "args": {
+            "patient_ref": "Mateo Ramirez (DOB 2019-03-15)",
+            "slot_id": "slot_pt_priya_2026_04_29_1300"
+          },
+          "result_summary": "created pending_review hold hold_01ksn4tfygr927k2fb8mvbs869 until 2026-05-27T17:08:28.048Z"
+        },
+        {
+          "call_id": "01KSN4TFYHGNB7RRX3CW4HE6NE",
           "name": "create_task",
           "args": {
             "assignee": "intake",
             "due": "2026-04-28",
-            "notes": "Incoming referral from Carla Mendez (555-0104) for \"Mateo Ramirez\" (DOB 2019-03-15) requesting PT eval. Patient search returned a close match: \"Mateo Ramirez Jr.\" (pat_mateo_ramirez_jr, DOB matches) with guardian listed as Sofia Ramirez — not Carla Mendez. Please confirm: (1) Is this the same child? (2) Is Carla Mendez an authorized guardian/contact? (3) Confirm correct full name. Do not schedule until identity and authorization are verified. Auth is also required per Aetna PPO coverage — billing to confirm.",
-            "title": "Verify patient identity & guardian relationship – Mateo Ramirez"
+            "notes": "A PT referral email for Mateo Ramirez (DOB 2019-03-15) was submitted by Carla Mendez (carla.mendez@example.com, 555-0104). The system returned a partial match: \"Mateo Ramirez Jr.\" (pat_mateo_ramirez_jr, active) with guardian \"Sofia Ramirez\" — not Carla Mendez. Staff must: (1) Confirm whether this is the same child and clarify the guardian relationship before confirming the appointment. (2) Note that Aetna PPO (member ID AET-9910) is verified in-network and active; auth is required. (3) A slot hold has been placed for review: Priya Shah, PT, DPT on 2026-04-29 at 1:00 PM.",
+            "title": "Guardian name discrepancy — Mateo Ramirez referral"
           },
-          "result_summary": "created task task_01ksn3nzc1jys3gz79kjrvczwh for intake"
+          "result_summary": "created task task_01ksn4tfyhdryrxn7jntzfpwxa for intake"
         },
         {
-          "call_id": "01KSN3NZC2QB7KY4VMKMMT5X0G",
+          "call_id": "01KSN4TFYHMYD5VGQM86ZE6YHZ",
           "name": "create_task",
           "args": {
             "assignee": "billing",
             "due": "2026-04-28",
-            "notes": "Aetna PPO verified in-network (member ID: AET-9910, copay $30). Billing system flagged auth_required=true. Please confirm prior authorization process for PT evaluation before appointment is booked. Guardian contacting us is Carla Mendez (555-0104) — note that existing patient record lists a different guardian (Sofia Ramirez). Coordinate with intake on identity verification.",
-            "title": "Confirm Aetna auth requirement & PT eval coverage – Mateo Ramirez"
+            "notes": "New PT evaluation referral for Mateo Ramirez (DOB 2019-03-15). Aetna PPO (member ID AET-9910) is verified in-network and active, but authorization is required per billing system. Please initiate prior auth process once intake confirms the correct patient record and guardian. Parent contact: Carla Mendez, 555-0104.",
+            "title": "Prior auth needed — Mateo Ramirez PT evaluation (Aetna PPO)"
           },
-          "result_summary": "created task task_01ksn3nzc2jk2h15k130emt3xe for billing"
+          "result_summary": "created task task_01ksn4tfyhd48xt14za8wbx7n9 for billing"
         },
         {
-          "call_id": "01KSN3P5PRV5ZS8H861QVREA1H",
+          "call_id": "01KSN4TFYJF5Z751N0MFARGMKQ",
           "name": "draft_message",
           "args": {
-            "body": "Hi Carla,\n\nThank you for reaching out to Cedar Kids Therapy on behalf of Mateo! We received your referral request for a physical therapy evaluation and are happy to help.\n\nOur team is reviewing the information you provided and will be in touch shortly to confirm a few details before scheduling Mateo's PT evaluation. Please expect a call or email from us within 1 business day.\n\nIn the meantime, if you have any questions, feel free to reply to this message or call us directly.\n\nWarm regards,\nCedar Kids Therapy",
+            "body": "Hi Carla,\n\nThank you for reaching out to Cedar Kids Therapy on behalf of Mateo! We received your referral request for a PT evaluation and are glad to help.\n\nWe've located a potential match in our system and our intake team will be in touch shortly to confirm a few details before booking his appointment. Our team will reach you at 555-0104.\n\nIn the meantime, we've confirmed that Aetna PPO is in-network with our practice. Please note that your plan may require prior authorization before services begin — our billing team will handle that process and keep you informed.\n\nWe look forward to connecting with you soon!\n\nWarm regards,\nCedar Kids Therapy",
             "channel": "email",
-            "language": "en",
             "recipient": "Carla Mendez"
           },
-          "result_summary": "created draft draft_01ksn3p5prwz8yght67a6ec71n (email, en)"
+          "result_summary": "created draft draft_01ksn4tfyhan1y5dtqk4hbmfcp (email, en)"
         }
       ]
     },
@@ -387,31 +400,31 @@
       "extracted_intake": {
         "child_name": "Ava Kim",
         "dob_or_age": "4 years old",
-        "parent_contact": "Jordan Kim via parent portal",
+        "parent_contact": "Jordan Kim (parent portal)",
         "discipline": [
           "SLP"
         ],
-        "diagnosis_or_concern": "Parent asking whether inability to produce R sounds at age 4 is developmentally normal; pre-intake inquiry, not yet committed to booking",
+        "diagnosis_or_concern": "Parent asking whether R-sound production delay is normal at age 4 and whether evaluation is warranted",
         "payer": null,
         "member_id": null
       },
       "missing_info": [
         "Date of birth (exact)",
-        "Insurance/payer information",
+        "Insurance payer",
         "Member ID",
-        "Phone or email contact for Jordan Kim",
-        "Whether family is interested in proceeding with a screening or evaluation"
+        "Contact phone number or email",
+        "Physician referral (if required by payer)"
       ],
-      "recommended_next_action": "Clinical lead (or designee SLP) should review the portal message today and respond with a brief, clinician-appropriate note about R-sound development milestones and an offer for a free screening or evaluation, per policy — do not have front desk respond with clinical content.",
-      "draft_reply": "Hi Jordan,\n\nThank you for reaching out about Ava! This is a great question, and we want to make sure you get the most accurate and helpful answer possible.\n\nBecause developmental speech questions like this really benefit from a professional perspective, we've passed your message along to one of our licensed speech-language pathologists. A member of our clinical team will follow up with you shortly to address your question and let you know if a screening or evaluation might be a helpful next step.\n\nIn the meantime, please don't hesitate to reach out if you have any other questions. We're happy you found us!\n\nWarm regards,\nCedar Kids Therapy",
+      "recommended_next_action": "Clinical lead should review the developmental question and arrange a brief SLP consultation or screening conversation with Jordan Kim before any booking proceeds.",
+      "draft_reply": "Hi Jordan,\n\nThank you for reaching out about Ava! We completely understand wanting some guidance before taking next steps — that's a great question to ask.\n\nOur policy is that questions about speech and development milestones are best answered by one of our licensed speech-language pathologists, rather than through a general message. We wouldn't want to give you anything less than a thoughtful, personalized response.\n\nHere's what we'd suggest: we can connect you with one of our SLP team members for a brief phone or portal consultation to discuss Ava's development and whether a formal evaluation might be helpful. There's no obligation to book anything — it's simply a chance to get your questions answered by the right person.\n\nIf you'd like us to set that up, please reply here or give us a call and we'll get it arranged as soon as possible.\n\nThanks again, and we look forward to hearing from you!\n\nWarm regards,\nCedar Kids Therapy",
       "task_ids": [
-        "task_01ksn3qj0cn7vch24jmhm3n264"
+        "task_01ksn4t9kb97bzhf7nf3zsg994"
       ],
       "escalation": null,
-      "decision_rationale": "This is a clinical question about speech-language development milestones — front desk and automated systems are prohibited from providing clinical advice, so the question must be routed to a licensed SLP via the clinical lead. No existing patient record was found for Ava Kim, and no insurance or scheduling details were provided, making this a pre-intake inquiry. Urgency is P2 (standard workflow) as there is no safety concern or same-day operational issue; the family is not yet committed to booking and is simply seeking guidance.",
+      "decision_rationale": "This message is a clinical question about speech development milestones — specifically whether R-sound delays at age 4 warrant concern. Per policy, front desk and automated systems must not provide clinical advice; the question must be routed to a clinician. Ava Kim was not found in the patient system, so this is a prospective new family. No safety or same-day operational urgency is present, so P2 is appropriate.",
       "tools_called": [
         {
-          "call_id": "01KSN3PQ3MX3BQX2F6JJBCKDN6",
+          "call_id": "01KSN4SY1KAV65ZPJW41D0A2Q7",
           "name": "lookup_policy",
           "args": {
             "topic": "clinical_advice"
@@ -419,7 +432,7 @@
           "result_summary": "2 policy snippets for clinical_advice"
         },
         {
-          "call_id": "01KSN3PQ3PXVX78ETMVY4HAEK4",
+          "call_id": "01KSN4SY1MX313VPV74C5QPYJ1",
           "name": "lookup_policy",
           "args": {
             "topic": "service_lines"
@@ -427,7 +440,7 @@
           "result_summary": "2 policy snippets for service_lines"
         },
         {
-          "call_id": "01KSN3PQ3Q8YBYKFADKWVPYNB3",
+          "call_id": "01KSN4SY1N060J19DAK4KEBBRM",
           "name": "search_patient",
           "args": {
             "name": "Ava Kim"
@@ -435,25 +448,25 @@
           "result_summary": "0 patient matches"
         },
         {
-          "call_id": "01KSN3QJ0CRNYGY1X4M7FW12K3",
+          "call_id": "01KSN4T9K9VFY1VRRXRVPEFVZG",
+          "name": "draft_message",
+          "args": {
+            "body": "Hi Jordan,\n\nThank you for reaching out about Ava! We completely understand wanting some guidance before taking next steps — that's a great question to ask.\n\nOur policy is that questions about speech and development milestones are best answered by one of our licensed speech-language pathologists, rather than through a general message. We wouldn't want to give you anything less than a thoughtful, personalized response.\n\nHere's what we'd suggest: we can connect you with one of our SLP team members for a brief phone or portal consultation to discuss Ava's development and whether a formal evaluation might be helpful. There's no obligation to book anything — it's simply a chance to get your questions answered by the right person.\n\nIf you'd like us to set that up, please reply here or give us a call and we'll get it arranged as soon as possible.\n\nThanks again, and we look forward to hearing from you!\n\nWarm regards,\nCedar Kids Therapy",
+            "channel": "portal",
+            "recipient": "Jordan Kim"
+          },
+          "result_summary": "created draft draft_01ksn4t9k9ext1fsa8hmhxzf3b (portal, en)"
+        },
+        {
+          "call_id": "01KSN4T9KB26BHPH10DMG6DCK4",
           "name": "create_task",
           "args": {
             "assignee": "clinical_lead",
             "due": "2026-04-28",
-            "notes": "Parent Jordan Kim submitted a portal message asking whether it is developmentally normal for their 4-year-old, Ava, to not yet produce R sounds, and whether they should wait until kindergarten. Per policy, front desk cannot provide clinical advice. A licensed SLP should review and provide a general (non-diagnostic) response or offer a screening/evaluation. No existing patient record found for Ava Kim. Parent is not yet committed to booking — an evaluation offer may convert this inquiry.",
-            "title": "Clinical question: 4-year-old R-sound development – Jordan Kim"
+            "notes": "Parent Jordan Kim sent a portal message (item_5) asking whether it is normal for a 4-year-old to not yet produce R sounds, and whether they should wait until kindergarten. Per policy, clinical advice cannot be provided via message. Please review and determine appropriate next step — e.g., brief clinician phone consult or offer a screening/evaluation. No insurance or scheduling info has been provided yet. Draft reply to Jordan has been prepared directing them to speak with an SLP.",
+            "title": "SLP clinical question — developmental R sounds for 4-year-old (Ava Kim)"
           },
-          "result_summary": "created task task_01ksn3qj0cn7vch24jmhm3n264 for clinical_lead"
-        },
-        {
-          "call_id": "01KSN3QJ0ETTT6QHXMPQ5R07KD",
-          "name": "draft_message",
-          "args": {
-            "body": "Hi Jordan,\n\nThank you for reaching out about Ava! This is a great question, and we want to make sure you get the most accurate and helpful answer possible.\n\nBecause developmental speech questions like this really benefit from a professional perspective, we've passed your message along to one of our licensed speech-language pathologists. A member of our clinical team will follow up with you shortly to address your question and let you know if a screening or evaluation might be a helpful next step.\n\nIn the meantime, please don't hesitate to reach out if you have any other questions. We're happy you found us!\n\nWarm regards,\nCedar Kids Therapy",
-            "channel": "portal",
-            "recipient": "Jordan Kim"
-          },
-          "result_summary": "created draft draft_01ksn3qj0dxjf8j2bxbjr750gg (portal, en)"
+          "result_summary": "created task task_01ksn4t9kb97bzhf7nf3zsg994 for clinical_lead"
         }
       ]
     },
@@ -469,27 +482,27 @@
         "discipline": [
           "SLP"
         ],
-        "diagnosis_or_concern": "Speech delay in a school-age child",
+        "diagnosis_or_concern": "Speech delay (school-age child)",
         "payer": null,
         "member_id": null
       },
       "missing_info": [
         "Child date of birth",
         "Parent/guardian name",
-        "Parent/guardian contact information",
+        "Parent/guardian contact information (phone and/or email)",
         "Insurance payer name",
         "Insurance member ID"
       ],
-      "recommended_next_action": "Intake staff should fax a reply to Lakeview Pediatrics / Dr. Omar Keene today requesting the five missing fields (DOB, parent/guardian name and contact, payer, member ID) before any insurance verification or slot hold can proceed.",
-      "draft_reply": "Dear Dr. Keene and Lakeview Pediatrics team,\n\nThank you for referring Sam Taylor to Cedar Kids Therapy for speech-language pathology services. We received your fax referral and are happy to help this family.\n\nUnfortunately, we are unable to move forward with scheduling at this time because the following required information was missing from the referral:\n\n  • Child's date of birth\n  • Parent/guardian name and contact information\n  • Insurance payer name\n  • Insurance member ID\n\nCould you please resend the referral with this information completed, or have the family contact us directly at your earliest convenience? Once we have the complete details, we will verify insurance and reach out to the family to arrange an evaluation.\n\nThank you for your partnership in caring for your patients. Please don't hesitate to call our front desk with any questions.\n\nWarm regards,\nCedar Kids Therapy — Intake Team",
+      "recommended_next_action": "Intake staff should contact Lakeview Pediatrics / Dr. Omar Keene today to obtain the five missing fields (DOB, parent/guardian name and contact, insurance payer, member ID) before proceeding with any intake, insurance verification, or scheduling steps; the draft fax reply is ready for staff review and sending.",
+      "draft_reply": "Dear Dr. Keene and Lakeview Pediatrics Team,\n\nThank you for your referral of Sam Taylor to Cedar Kids Therapy for speech-language pathology services. We are happy to assist and want to ensure we can process this referral promptly.\n\nUnfortunately, we are unable to proceed without the following required information:\n\n1. Child's date of birth\n2. Parent/guardian name and contact information (phone number and/or email)\n3. Insurance payer name\n4. Insurance member ID\n\nCould you please resend the referral with these details completed, or contact our office directly? Once we have the complete information, we will prioritize intake and reach out to the family.\n\nThank you for your partnership in caring for your patients.\n\nWarm regards,\nCedar Kids Therapy – Intake Team",
       "task_ids": [
-        "task_01ksn3rcgdxz4ywf9ywfrfjq62"
+        "task_01ksn4tjqkjrn0s3yh96ejstsn"
       ],
       "escalation": null,
-      "decision_rationale": "The referral from Dr. Omar Keene at Lakeview Pediatrics is too incomplete to process: DOB, parent/guardian contact, payer, and member ID are all blank, making patient matching, insurance verification, and slot-holding impossible. No existing patient named Sam Taylor was found in the system. This is a routine P2 missing-paperwork situation — no safeguarding or same-day operational concern was identified — so the correct path is to contact the referring office for the missing details before taking any further scheduling steps.",
+      "decision_rationale": "This is a new referral from Lakeview Pediatrics for SLP services, but it is critically incomplete — the child's DOB, parent/guardian contact, and all insurance details are blank. No existing patient record was found under \"Sam Taylor,\" so this cannot be matched to a prior file. Insurance cannot be verified and no slot can be held until the missing information is received; a task has been assigned to intake and a draft fax reply to the referring office is ready for staff review.",
       "tools_called": [
         {
-          "call_id": "01KSN3R1X8A6B414S6PBM8HNWB",
+          "call_id": "01KSN4T7XEKY6JK802ZQQJ7439",
           "name": "search_patient",
           "args": {
             "name": "Sam Taylor"
@@ -497,7 +510,7 @@
           "result_summary": "0 patient matches"
         },
         {
-          "call_id": "01KSN3R1X9D6BQ7FD8QES871BA",
+          "call_id": "01KSN4T7XFRCXH3A8PW2S4QZP2",
           "name": "lookup_policy",
           "args": {
             "topic": "insurance"
@@ -505,33 +518,33 @@
           "result_summary": "3 policy snippets for insurance"
         },
         {
-          "call_id": "01KSN3R1X954MBNJXKFF2817PC",
+          "call_id": "01KSN4T7XGE8ZCMN1RFDSW96NH",
           "name": "lookup_policy",
           "args": {
-            "topic": "service_lines"
+            "topic": "scheduling"
           },
-          "result_summary": "2 policy snippets for service_lines"
+          "result_summary": "2 policy snippets for scheduling"
         },
         {
-          "call_id": "01KSN3RCGDTCVY79Y9DASFH0X1",
+          "call_id": "01KSN4TJQKTNH1JPKT379EMP0G",
           "name": "create_task",
           "args": {
             "assignee": "intake",
             "due": "2026-04-28",
-            "notes": "Fax referral received from Dr. Omar Keene at Lakeview Pediatrics (item_6). Child: Sam Taylor. Discipline: SLP. Concern: speech delay, school-age child. MISSING: DOB, parent/guardian name and contact information, insurance payer, and member ID. No existing patient record found in the system. Contact Lakeview Pediatrics to obtain the missing information before any slot can be held or insurance verified.",
-            "title": "Incomplete referral – Sam Taylor (SLP) from Lakeview Pediatrics"
+            "notes": "Fax referral received 4/28 from Dr. Omar Keene at Lakeview Pediatrics for SLP (speech delay, school-age). Critical fields are missing: (1) child's date of birth, (2) parent/guardian name and contact information, (3) insurance payer name, (4) insurance member ID. No existing patient record found under \"Sam Taylor.\" Please contact Lakeview Pediatrics to obtain the missing information before proceeding with intake, insurance verification, or scheduling. Referral PDF attached as referral_item_6.pdf.",
+            "title": "Incomplete referral - Sam Taylor (Lakeview Pediatrics / Dr. Omar Keene)"
           },
-          "result_summary": "created task task_01ksn3rcgdxz4ywf9ywfrfjq62 for intake"
+          "result_summary": "created task task_01ksn4tjqkjrn0s3yh96ejstsn for intake"
         },
         {
-          "call_id": "01KSN3RCGE59XVB58QMJEZKXYC",
+          "call_id": "01KSN4TJQMV4QC5B2SJ2ZBXXQ1",
           "name": "draft_message",
           "args": {
-            "body": "Dear Dr. Keene and Lakeview Pediatrics team,\n\nThank you for referring Sam Taylor to Cedar Kids Therapy for speech-language pathology services. We received your fax referral and are happy to help this family.\n\nUnfortunately, we are unable to move forward with scheduling at this time because the following required information was missing from the referral:\n\n  • Child's date of birth\n  • Parent/guardian name and contact information\n  • Insurance payer name\n  • Insurance member ID\n\nCould you please resend the referral with this information completed, or have the family contact us directly at your earliest convenience? Once we have the complete details, we will verify insurance and reach out to the family to arrange an evaluation.\n\nThank you for your partnership in caring for your patients. Please don't hesitate to call our front desk with any questions.\n\nWarm regards,\nCedar Kids Therapy — Intake Team",
+            "body": "Dear Dr. Keene and Lakeview Pediatrics Team,\n\nThank you for your referral of Sam Taylor to Cedar Kids Therapy for speech-language pathology services. We are happy to assist and want to ensure we can process this referral promptly.\n\nUnfortunately, we are unable to proceed without the following required information:\n\n1. Child's date of birth\n2. Parent/guardian name and contact information (phone number and/or email)\n3. Insurance payer name\n4. Insurance member ID\n\nCould you please resend the referral with these details completed, or contact our office directly? Once we have the complete information, we will prioritize intake and reach out to the family.\n\nThank you for your partnership in caring for your patients.\n\nWarm regards,\nCedar Kids Therapy – Intake Team",
             "channel": "fax",
-            "recipient": "Lakeview Pediatrics fax / Dr. Omar Keene"
+            "recipient": "Lakeview Pediatrics / Dr. Omar Keene"
           },
-          "result_summary": "created draft draft_01ksn3rcge797d1e0enap5f3rm (fax, en)"
+          "result_summary": "created draft draft_01ksn4tjqmxnxwwqstwyvzt5ja (fax, en)"
         }
       ]
     },
@@ -542,39 +555,30 @@
       "requires_human_review": true,
       "extracted_intake": {
         "child_name": "Isabella Lopez",
-        "dob_or_age": "5 years old",
-        "parent_contact": "Ana Lopez – 555-0107",
+        "dob_or_age": "5 años",
+        "parent_contact": "Ana Lopez, tel. 555-0107 (prefiere español)",
         "discipline": [
           "SLP"
         ],
-        "diagnosis_or_concern": "Speech evaluation requested",
+        "diagnosis_or_concern": "Evaluación de habla / speech evaluation",
         "payer": "Medicaid",
         "member_id": "MCD-55320"
       },
       "missing_info": [
-        "Isabella's exact date of birth (needed for patient record creation)",
-        "Referring provider or physician name (if applicable)",
-        "Completed intake/registration paperwork"
+        "Date of birth (exact) for Isabella Lopez",
+        "Referral or physician order if required by Medicaid plan",
+        "Completed intake/registration forms"
       ],
-      "recommended_next_action": "Intake staff should call Ana Lopez at 555-0107 in Spanish today to confirm the April 30 slot with Lucía Morales and collect Isabella's date of birth and intake paperwork.",
-      "draft_reply": "Hola Ana, le habla el equipo de Cedar Kids Therapy. Recibimos su mensaje sobre la evaluación de habla para Isabella. Nos da mucho gusto poder atenderles.\n\nTenemos disponibilidad con nuestra terapeuta Lucía Morales, que habla español, el jueves 30 de abril a las 11:00 a.m. También contamos con otra opción el lunes 4 de mayo a las 2:00 p.m. en caso de que prefiera esa fecha.\n\nHemos verificado su cobertura de Medicaid (miembro MCD-55320) y todo está en orden — sin copago para esta visita.\n\nPor favor, comuníquese con nosotros al [número de la clínica] para confirmar cuál fecha le conviene mejor y completar el proceso de registro. ¡Esperamos conocer a Isabella pronto!",
+      "recommended_next_action": "Intake staff should call Ana Lopez at 555-0107 in Spanish today to confirm the April 30 slot with Lucía Morales, collect Isabella's exact DOB, and send intake paperwork.",
+      "draft_reply": "Hola Ana, le llamamos de Cedar Kids Therapy. Recibimos su mensaje sobre la evaluación de habla para Isabella. Nos da mucho gusto poder atenderles.\n\nTenemos disponibilidad con nuestra terapeuta de habla bilingüe (español/inglés), Lucía Morales, el jueves 30 de abril a las 11:00 a.m. También hay otra opción el lunes 4 de mayo a las 2:00 p.m. si esa fecha le conviene mejor.\n\nHemos verificado su cobertura de Medicaid (miembro MCD-55320) y todo está activo. No hay copago para esta visita.\n\nPor favor, comuníquese con nosotros al número de la clínica para confirmar la cita y así podemos enviarle los formularios de ingreso. Estamos aquí para ayudarle en cualquier paso del proceso.",
       "task_ids": [
-        "task_01ksn3sda62d3kdh37cs1rmf4r"
+        "task_01ksn4v9d7sg0zkym43esy31ws"
       ],
       "escalation": null,
-      "decision_rationale": "This is a straightforward new SLP referral with active, verified in-network Medicaid coverage (no copay, no auth required), so scheduling can proceed once intake is confirmed by a human. The family requested a Spanish-speaking provider — two SLP evaluation slots were found with bilingual therapist Lucía Morales, and the earliest (April 30) has been placed on a pending-review hold. All outbound communication has been drafted in Spanish per language access policy.",
+      "decision_rationale": "This is a new SLP evaluation referral for a 5-year-old Spanish-speaking family. Medicaid (MCD-55320) verified as active, in-network, $0 copay, no prior auth required — all clear to proceed. Per language access policy, a Spanish-capable SLP (Lucía Morales) was matched and the earliest available evaluation slot (April 30 at 11am) was placed on pending-review hold. No safeguarding concerns; standard P2 intake workflow applies.",
       "tools_called": [
         {
-          "call_id": "01KSN3RW0C7H3ARHC8KT35EB1M",
-          "name": "verify_insurance",
-          "args": {
-            "member_id": "MCD-55320",
-            "payer": "Medicaid"
-          },
-          "result_summary": "insurance status: in_network (Medicaid)"
-        },
-        {
-          "call_id": "01KSN3RW0DTRRM23BH766JXMZF",
+          "call_id": "01KSN4TS86BW9A5VP5CNGRDS4H",
           "name": "search_patient",
           "args": {
             "dob": "2021-01-01",
@@ -583,7 +587,16 @@
           "result_summary": "0 patient matches"
         },
         {
-          "call_id": "01KSN3RW0DYF1SXF1PS3D2AGDJ",
+          "call_id": "01KSN4TS87EFTTMYX4B346X0AQ",
+          "name": "verify_insurance",
+          "args": {
+            "member_id": "MCD-55320",
+            "payer": "Medicaid"
+          },
+          "result_summary": "insurance status: in_network (Medicaid)"
+        },
+        {
+          "call_id": "01KSN4TS88WHP3K9Z2875QBG2S",
           "name": "lookup_policy",
           "args": {
             "topic": "insurance"
@@ -591,7 +604,7 @@
           "result_summary": "3 policy snippets for insurance"
         },
         {
-          "call_id": "01KSN3RW0EGFH83N4W1F5EZ6GX",
+          "call_id": "01KSN4TS88B29ETZGQQ67CVW01",
           "name": "lookup_policy",
           "args": {
             "topic": "language_access"
@@ -599,7 +612,7 @@
           "result_summary": "2 policy snippets for language_access"
         },
         {
-          "call_id": "01KSN3RZGE72SG5EYDP9YYVTB0",
+          "call_id": "01KSN4TW9K0S3C5WDSGNVZRQBN",
           "name": "find_slots",
           "args": {
             "discipline": "SLP",
@@ -608,35 +621,35 @@
           "result_summary": "2 matching slots; earliest 2026-04-30T11:00:00-07:00 with Lucia Morales, MA CCC-SLP"
         },
         {
-          "call_id": "01KSN3SDA4R2EG3GH1RF5654FN",
+          "call_id": "01KSN4V9D5V7A4HVYZG8KX63V2",
           "name": "hold_slot",
           "args": {
             "patient_ref": "Isabella Lopez",
             "slot_id": "slot_slp_lucia_2026_04_30_1100"
           },
-          "result_summary": "created pending_review hold hold_01ksn3sda4wqgybw4yt0empxrh until 2026-05-27T16:50:24.004Z"
+          "result_summary": "created pending_review hold hold_01ksn4v9d5s6zyncmg78qsgff9 until 2026-05-27T17:08:54.117Z"
         },
         {
-          "call_id": "01KSN3SDA5EV0V24V1PY9EVPRQ",
+          "call_id": "01KSN4V9D6316GV55ZE05JSFHH",
           "name": "draft_message",
           "args": {
-            "body": "Hola Ana, le habla el equipo de Cedar Kids Therapy. Recibimos su mensaje sobre la evaluación de habla para Isabella. Nos da mucho gusto poder atenderles.\n\nTenemos disponibilidad con nuestra terapeuta Lucía Morales, que habla español, el jueves 30 de abril a las 11:00 a.m. También contamos con otra opción el lunes 4 de mayo a las 2:00 p.m. en caso de que prefiera esa fecha.\n\nHemos verificado su cobertura de Medicaid (miembro MCD-55320) y todo está en orden — sin copago para esta visita.\n\nPor favor, comuníquese con nosotros al [número de la clínica] para confirmar cuál fecha le conviene mejor y completar el proceso de registro. ¡Esperamos conocer a Isabella pronto!",
+            "body": "Hola Ana, le llamamos de Cedar Kids Therapy. Recibimos su mensaje sobre la evaluación de habla para Isabella. Nos da mucho gusto poder atenderles.\n\nTenemos disponibilidad con nuestra terapeuta de habla bilingüe (español/inglés), Lucía Morales, el jueves 30 de abril a las 11:00 a.m. También hay otra opción el lunes 4 de mayo a las 2:00 p.m. si esa fecha le conviene mejor.\n\nHemos verificado su cobertura de Medicaid (miembro MCD-55320) y todo está activo. No hay copago para esta visita.\n\nPor favor, comuníquese con nosotros al número de la clínica para confirmar la cita y así podemos enviarle los formularios de ingreso. Estamos aquí para ayudarle en cualquier paso del proceso.",
             "channel": "phone",
             "language": "es",
             "recipient": "Ana Lopez"
           },
-          "result_summary": "created draft draft_01ksn3sda5xxt2pnn7hqxwg3ny (phone, es)"
+          "result_summary": "created draft draft_01ksn4v9d6pn65yza81jznqjdw (phone, es)"
         },
         {
-          "call_id": "01KSN3SDA6PK7HQH7M83GRDCXG",
+          "call_id": "01KSN4V9D7B83JG5DGGKH06A28",
           "name": "create_task",
           "args": {
             "assignee": "intake",
             "due": "2026-04-28",
-            "notes": "New referral received via voicemail (item_7) from Ana Lopez (mother). Child: Isabella Lopez, age 5. Concern: speech evaluation (SLP). Insurance: Medicaid MCD-55320 — verified active, in-network, no copay, no auth required. No existing patient record found. Family requests a Spanish-speaking provider. Slot held for pending review: Lucía Morales, MA CCC-SLP (bilingual) on 2026-04-30 at 11:00 AM (slot_slp_lucia_2026_04_30_1100). Backup slot: 2026-05-04 at 2:00 PM. Call back Ana Lopez at 555-0107 in Spanish to confirm the slot and complete intake paperwork. Draft reply has been prepared.",
-            "title": "New SLP referral – Isabella Lopez (Spanish-speaking family)"
+            "notes": "Nueva solicitud de evaluación de habla para Isabella Lopez, 5 años. Madre: Ana Lopez, tel. 555-0107, prefiere español. Medicaid MCD-55320 verificado como activo, en red, sin copago, sin autorización requerida. No hay registro previo de paciente. Proveedor sugerido: Lucía Morales (SLP bilingüe). Slot en espera: jueves 30 de abril a las 11:00 a.m. (slot_slp_lucia_2026_04_30_1100). Hay también opción el 4 de mayo a las 2:00 p.m. Contactar a Ana Lopez en español para confirmar cita y enviar formularios de ingreso.",
+            "title": "Nueva evaluación SLP – Isabella Lopez (hablante de español)"
           },
-          "result_summary": "created task task_01ksn3sda62d3kdh37cs1rmf4r for intake"
+          "result_summary": "created task task_01ksn4v9d7sg0zkym43esy31ws for intake"
         }
       ]
     },
@@ -652,24 +665,24 @@
         "discipline": [
           "OT"
         ],
-        "diagnosis_or_concern": "Same-day cancellation due to illness (vomiting)",
+        "diagnosis_or_concern": "Existing OT patient; same-day cancellation due to illness (vomiting)",
         "payer": null,
         "member_id": null
       },
       "missing_info": [],
-      "recommended_next_action": "Front desk should immediately release today's 3pm OT slot, confirm the pending hold on May 5th 10am with James Owens (or identify an alternative), and contact Anita Patel at 555-0108 or via email to finalize the reschedule today.",
-      "draft_reply": "Hi Anita,\n\nThank you for letting us know — we're sorry to hear Noah isn't feeling well! We've noted the cancellation for today's 3pm OT appointment and a staff member will be in touch today to help get Noah rescheduled as soon as possible.\n\nWe may have availability as early as Tuesday, May 5th at 10:00am, but our front desk team will confirm the details and any other options with you directly. You can also reach us at any time at 555-0108.\n\nWe hope Noah feels better soon!\n\nWarm regards,\nCedar Kids Therapy",
+      "recommended_next_action": "Front desk must release Noah Patel's 3pm OT slot today, then contact Anita Patel (555-0108 or email) to confirm cancellation and confirm or adjust the pending-review hold placed on May 5 at 10am with James Owens, OTR/L before communicating any new appointment to the family.",
+      "draft_reply": "Hi Anita,\n\nThank you for reaching out so quickly. We're sorry to hear Noah isn't feeling well — we hope he feels better soon!\n\nWe've received your request to cancel Noah's OT appointment today at 3pm and have passed it to our scheduling team to release the slot. A staff member will be in touch shortly via phone (555-0108) or email to help find a new time that works for your family.\n\nPlease don't hesitate to reach out if you have any questions in the meantime.\n\nWarm regards,\nCedar Kids Therapy",
       "task_ids": [
-        "task_01ksn3t4455eemc726m2zr21gh"
+        "task_01ksn4vbhfsp0hknpnp2svaheb"
       ],
       "escalation": {
-        "reason": "Same-day cancellation of today's 3pm OT appointment for active patient Noah Patel due to illness. Front desk needs to free the slot and arrange a makeup appointment promptly.",
+        "reason": "Same-day cancellation of Noah Patel's 3pm OT appointment today. Slot needs to be opened up and family needs to be rescheduled promptly.",
         "severity": "P1"
       },
-      "decision_rationale": "This is a same-day OT cancellation for confirmed active patient Noah Patel (pat_noah_patel), which is a P1 operational issue per policy requiring same-day staff action. A pending-review hold has been placed on the next available OT slot (May 5th, 10am with James Owens) and a front desk task has been created for today to release the original slot and confirm rescheduling with the family. No safeguarding, billing, or clinical concerns are present.",
+      "decision_rationale": "This is a same-day cancellation of an existing patient's OT appointment, which is a P1 operational issue per policy requiring prompt same-day staff action. Noah Patel was confirmed as an active patient (pat_noah_patel). A pending-review hold was placed on the earliest available OT slot (May 5, James Owens) for staff to confirm with the family; no slot was scheduled, only held for human review.",
       "tools_called": [
         {
-          "call_id": "01KSN3SW3TDTS1JVEQRFT6SKFJ",
+          "call_id": "01KSN4TZMWMPF4WG8VB41B817Q",
           "name": "search_patient",
           "args": {
             "dob": "2017-11-02",
@@ -678,7 +691,7 @@
           "result_summary": "1 patient match: Noah Patel (2017-11-02)"
         },
         {
-          "call_id": "01KSN3SW3XG9T3NJHXBEYB8P7B",
+          "call_id": "01KSN4TZMX3VBJB6V6RETMPGYJ",
           "name": "lookup_policy",
           "args": {
             "topic": "scheduling"
@@ -686,7 +699,7 @@
           "result_summary": "2 policy snippets for scheduling"
         },
         {
-          "call_id": "01KSN3SW3X9KM1HM6FZZ39M9DH",
+          "call_id": "01KSN4TZMYHYRKPQX1BFC5JFZT",
           "name": "lookup_policy",
           "args": {
             "topic": "cancellation"
@@ -694,17 +707,17 @@
           "result_summary": "2 policy snippets for cancellation"
         },
         {
-          "call_id": "01KSN3T443B2V8EFD7JYDYP177",
+          "call_id": "01KSN4VBHD7EST510MJ879CP82",
           "name": "escalate",
           "args": {
             "item_id": "item_8",
-            "reason": "Same-day cancellation of today's 3pm OT appointment for active patient Noah Patel due to illness. Front desk needs to free the slot and arrange a makeup appointment promptly.",
+            "reason": "Same-day cancellation of Noah Patel's 3pm OT appointment today. Slot needs to be opened up and family needs to be rescheduled promptly.",
             "severity": "P1"
           },
-          "result_summary": "created escalation esc_01ksn3t4433n5gyk6vv42kfgj0 severity P1"
+          "result_summary": "created escalation esc_01ksn4vbhdx3a4c8ne4b4egte6 severity P1"
         },
         {
-          "call_id": "01KSN3T444JSN93C6DW00WWAJ5",
+          "call_id": "01KSN4VBHE1F4JM57M140W2WEP",
           "name": "find_slots",
           "args": {
             "discipline": "OT"
@@ -712,34 +725,34 @@
           "result_summary": "1 matching slots; earliest 2026-05-05T10:00:00-07:00 with James Owens, OTR/L"
         },
         {
-          "call_id": "01KSN3T4451DSWQDP3JFX5Q98F",
+          "call_id": "01KSN4VBHFMM57GW3T0848DCSV",
           "name": "create_task",
           "args": {
             "assignee": "front_desk",
             "due": "2026-04-28",
-            "notes": "Active patient Noah Patel (DOB 2017-11-02, patient_id: pat_noah_patel) cannot make today's 3pm OT appointment due to illness (child vomiting). Guardian Anita Patel requests a reschedule. Contact: 555-0108 or anita.patel@example.com. Please (1) release/mark today's 3pm OT slot as cancelled, (2) identify makeup availability from find_slots results, and (3) confirm new time with the family.",
-            "title": "Same-day OT cancellation – Noah Patel (today 3pm)"
+            "notes": "Anita Patel emailed at 7:36am requesting to cancel Noah Patel's (DOB 2017-11-02, pat_noah_patel) OT appointment today at 3pm — Noah is ill (vomiting). Staff must: (1) release today's 3pm OT slot, (2) contact Anita to reschedule via phone 555-0108 or email anita.patel@example.com, (3) check makeup availability with the OT provider and hold a new slot for human review before confirming with family.",
+            "title": "Same-day OT cancellation – Noah Patel (3pm today)"
           },
-          "result_summary": "created task task_01ksn3t4455eemc726m2zr21gh for front_desk"
+          "result_summary": "created task task_01ksn4vbhfsp0hknpnp2svaheb for front_desk"
         },
         {
-          "call_id": "01KSN3TB44R6Z5KYAKEYV8W5SF",
+          "call_id": "01KSN4VBHF7ERXVB391MEKVRC4",
+          "name": "draft_message",
+          "args": {
+            "body": "Hi Anita,\n\nThank you for reaching out so quickly. We're sorry to hear Noah isn't feeling well — we hope he feels better soon!\n\nWe've received your request to cancel Noah's OT appointment today at 3pm and have passed it to our scheduling team to release the slot. A staff member will be in touch shortly via phone (555-0108) or email to help find a new time that works for your family.\n\nPlease don't hesitate to reach out if you have any questions in the meantime.\n\nWarm regards,\nCedar Kids Therapy",
+            "channel": "email",
+            "recipient": "Anita Patel"
+          },
+          "result_summary": "created draft draft_01ksn4vbhff03820g1r33eb9th (email, en)"
+        },
+        {
+          "call_id": "01KSN4VEXJH77226MGHJG9M3X6",
           "name": "hold_slot",
           "args": {
             "patient_ref": "Noah Patel",
             "slot_id": "slot_ot_james_2026_05_05_1000"
           },
-          "result_summary": "created pending_review hold hold_01ksn3tb44g53kjjvv0vt0kyse until 2026-05-27T16:50:54.532Z"
-        },
-        {
-          "call_id": "01KSN3TB45KHXEQ5YCS1WZY0PY",
-          "name": "draft_message",
-          "args": {
-            "body": "Hi Anita,\n\nThank you for letting us know — we're sorry to hear Noah isn't feeling well! We've noted the cancellation for today's 3pm OT appointment and a staff member will be in touch today to help get Noah rescheduled as soon as possible.\n\nWe may have availability as early as Tuesday, May 5th at 10:00am, but our front desk team will confirm the details and any other options with you directly. You can also reach us at any time at 555-0108.\n\nWe hope Noah feels better soon!\n\nWarm regards,\nCedar Kids Therapy",
-            "channel": "email",
-            "recipient": "Anita Patel"
-          },
-          "result_summary": "created draft draft_01ksn3tb45r40c486qq95r5pdk (email, en)"
+          "result_summary": "created pending_review hold hold_01ksn4vexjc0nnqpvfmnqrqj98 until 2026-05-27T17:08:59.762Z"
         }
       ]
     }

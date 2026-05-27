@@ -130,6 +130,12 @@ Each inbox item is processed by a **Claude-powered agentic loop** in `src/agent.
 
 Items are processed **in parallel** using a worker pool (concurrency = 3). A fixed-size pool of workers drains a shared queue, preserving original item order in the output while keeping at most 3 Claude sessions open simultaneously. `AsyncLocalStorage` ensures each item's tool calls are tracked independently regardless of interleaving.
 
+Each item is wrapped in an isolated try/catch — if one item's Claude call fails, a `requires_human_review: true` fallback record is emitted and the rest of the batch continues unaffected.
+
+`task_ids` and `escalation` in the output are derived directly from the audit trace (via `getToolCallsForItem`) rather than copied from Claude's `submit_triage` response, eliminating any risk of hallucinated IDs.
+
+The system prompt is sent with `cache_control: ephemeral`, so all items in a batch share a single cached prompt — reducing latency and token cost on the second and subsequent Claude calls.
+
 The `submit_triage` tool schema enforces the full `ItemOutput` shape (minus `tools_called`, which comes from the trace), so Claude's output is always structurally valid before it reaches `buildBatchOutput`.
 
 ## 4. Failure Modes and Production Eval
@@ -139,7 +145,8 @@ The `submit_triage` tool schema enforces the full `ItemOutput` shape (minus `too
 - **Over-escalation:** The system prompt warns against this explicitly, but edge-cases (e.g. a parent who says a child "fell") could still over-trigger.
 - **LLM hallucination of field values:** Claude could fabricate a `task_id` in `task_ids` rather than copying it from the tool result. Current mitigation: the system prompt explicitly instructs Claude to copy IDs from tool results; production mitigation would be to derive `task_ids` from the trace rather than trusting Claude's output.
 - **Guardian mismatch false positives:** The patient search is name+DOB fuzzy — a different child with the same DOB could trigger a false mismatch flag.
-- **Rate limits / latency:** Parallel processing (concurrency=3) reduces total runtime but a burst of long items could still hit API rate limits; no backoff is implemented.
+- **Rate limits / latency:** Parallel processing (concurrency=3) reduces total runtime but a burst of long items could still hit API rate limits; no retry/backoff is implemented.
+- **Agent crash on a single item:** Handled — each item has an isolated try/catch; a failure produces a `requires_human_review: true` fallback record and processing continues for remaining items.
 
 **Production eval approach:**
 - Ground-truth label set: manually annotate a batch of synthetic items with expected `urgency`, `classification`, and which tools *should* have been called.

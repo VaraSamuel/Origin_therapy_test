@@ -331,12 +331,42 @@ export async function runAgent(inbox: InboxItem[]): Promise<ItemOutput[]> {
       if (!next) break;
       const { item, index } = next;
       process.stderr.write(`[triage] ${item.id}: ${item.subject}\n`);
-      results[index] = await withItemContext(item.id, () => triageItem(item));
+      try {
+        results[index] = await withItemContext(item.id, () => triageItem(item));
+      } catch (err) {
+        process.stderr.write(`[triage] ERROR ${item.id}: ${err instanceof Error ? err.message : String(err)}\n`);
+        results[index] = fallbackOutput(item, err);
+      }
     }
   }
 
   await Promise.all(Array.from({ length: CONCURRENCY }, worker));
   return results as ItemOutput[];
+}
+
+function fallbackOutput(item: InboxItem, err: unknown): ItemOutput {
+  return {
+    item_id: item.id,
+    classification: "other",
+    urgency: "P2",
+    requires_human_review: true,
+    extracted_intake: {
+      child_name: null,
+      dob_or_age: null,
+      parent_contact: null,
+      discipline: null,
+      diagnosis_or_concern: null,
+      payer: null,
+      member_id: null,
+    },
+    missing_info: ["Agent error — manual triage required"],
+    tools_called: [],
+    recommended_next_action: "Manual triage required: agent failed to process this item.",
+    draft_reply: null,
+    task_ids: [],
+    escalation: null,
+    decision_rationale: `Agent error: ${err instanceof Error ? err.message : String(err)}`,
+  };
 }
 
 async function triageItem(item: InboxItem): Promise<ItemOutput> {
@@ -354,7 +384,7 @@ async function triageItem(item: InboxItem): Promise<ItemOutput> {
     const response = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 4096,
-      system: SYSTEM_PROMPT,
+      system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
       tools: TOOL_DEFINITIONS,
       messages,
     });
@@ -396,9 +426,28 @@ async function triageItem(item: InboxItem): Promise<ItemOutput> {
     throw new Error(`Agent exceeded max iterations without submitting for ${item.id}`);
   }
 
+  const toolsCalled = getToolCallsForItem(item.id);
+
+  // Derive task_ids and escalation from the audit trace rather than trusting
+  // Claude's output fields, which could hallucinate IDs or omit entries.
+  const taskIds = toolsCalled
+    .filter((tc) => tc.name === "create_task")
+    .map((tc) => tc.result_summary.match(/created task (\S+)/)?.[1])
+    .filter((id): id is string => id !== undefined);
+
+  const escalationCall = toolsCalled.find((tc) => tc.name === "escalate");
+  const escalation = escalationCall
+    ? {
+        reason: escalationCall.args.reason as string,
+        severity: escalationCall.args.severity as "P0" | "P1",
+      }
+    : null;
+
   return {
     ...submitted,
-    tools_called: getToolCallsForItem(item.id),
+    task_ids: taskIds,
+    escalation,
+    tools_called: toolsCalled,
   };
 }
 
