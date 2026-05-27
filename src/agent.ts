@@ -64,6 +64,7 @@ Default to P2 unless there is a clear safety or same-day operational reason. Ove
 - Clear, empathetic, concise, and operationally useful
 - Must not provide clinical advice and must not imply the message was sent
 - Spanish items: write the body in Spanish, set language="es"
+- channel must be portal, email, or phone — never fax. For fax referrers, draft via email or phone
 
 ## submit_triage Field Notes
 - task_ids: include the IDs returned by create_task calls (format "task_XXXX")
@@ -319,6 +320,35 @@ const TOOL_DEFINITIONS: Anthropic.Tool[] = [
 
 type SubmitInput = Omit<ItemOutput, "tools_called">;
 
+const SAFEGUARDING_KEYWORDS = [
+  "rough", "hit", "hitting", "hurt", "hurting", "abuse", "abused", "abusing",
+  "neglect", "neglected", "harm", "harming", "unsafe", "danger", "scared",
+  "afraid", "violence", "violent", "bruise", "bruised", "injure", "injured",
+  "injury", "assault", "threatened", "threatening",
+];
+
+function hasSafeguardingSignal(item: InboxItem): boolean {
+  const text = `${item.subject} ${item.body}`.toLowerCase();
+  return SAFEGUARDING_KEYWORDS.some((kw) => text.includes(kw));
+}
+
+async function withRetry<T>(fn: () => Promise<T>, maxAttempts = 3): Promise<T> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      if (attempt < maxAttempts - 1) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, 1000 * Math.pow(2, attempt)),
+        );
+      }
+    }
+  }
+  throw lastErr;
+}
+
 const CONCURRENCY = 3;
 
 export async function runAgent(inbox: InboxItem[]): Promise<ItemOutput[]> {
@@ -370,10 +400,15 @@ function fallbackOutput(item: InboxItem, err: unknown): ItemOutput {
 }
 
 async function triageItem(item: InboxItem): Promise<ItemOutput> {
+  const safeguardingFlagged = hasSafeguardingSignal(item);
+  const preamble = safeguardingFlagged
+    ? "[SAFEGUARDING PRE-SCAN ALERT: This item contains language that may indicate harm or unsafe caregiving. Review carefully — classify as P0 if any doubt.]\n\n"
+    : "";
+
   const messages: Anthropic.MessageParam[] = [
     {
       role: "user",
-      content: `Triage this inbox item. Use the appropriate tools, then call submit_triage with your final assessment.\n\n${JSON.stringify(item, null, 2)}`,
+      content: `${preamble}Triage this inbox item. Use the appropriate tools, then call submit_triage with your final assessment.\n\n${JSON.stringify(item, null, 2)}`,
     },
   ];
 
@@ -381,13 +416,23 @@ async function triageItem(item: InboxItem): Promise<ItemOutput> {
   const MAX_ITERATIONS = 10;
 
   for (let i = 0; i < MAX_ITERATIONS && !submitted; i++) {
-    const response = await client.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
-      system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
-      tools: TOOL_DEFINITIONS,
-      messages,
-    });
+    const response = await withRetry(() =>
+      client.messages.create({
+        model: "claude-sonnet-4-6",
+        max_tokens: 4096,
+        system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
+        tools: TOOL_DEFINITIONS,
+        messages,
+      }),
+    );
+
+    const { input_tokens, output_tokens, cache_read_input_tokens, cache_creation_input_tokens } = response.usage;
+    process.stderr.write(
+      `[triage] ${item.id} usage: in=${input_tokens} out=${output_tokens}` +
+      (cache_read_input_tokens ? ` cache_read=${cache_read_input_tokens}` : "") +
+      (cache_creation_input_tokens ? ` cache_write=${cache_creation_input_tokens}` : "") +
+      "\n",
+    );
 
     const toolResultContent: Anthropic.ToolResultBlockParam[] = [];
 
@@ -424,6 +469,15 @@ async function triageItem(item: InboxItem): Promise<ItemOutput> {
 
   if (!submitted) {
     throw new Error(`Agent exceeded max iterations without submitting for ${item.id}`);
+  }
+
+  // Safety net: if the keyword pre-scan flagged this item but the main loop
+  // under-classified it, force P0 so a safeguarding item can never ship as P2.
+  if (safeguardingFlagged && submitted.urgency !== "P0") {
+    process.stderr.write(
+      `[triage] SAFEGUARDING OVERRIDE: ${item.id} upgraded from ${submitted.urgency} to P0\n`,
+    );
+    submitted = { ...submitted, urgency: "P0", requires_human_review: true };
   }
 
   const toolsCalled = getToolCallsForItem(item.id);

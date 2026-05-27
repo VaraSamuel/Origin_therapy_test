@@ -141,11 +141,11 @@ The `submit_triage` tool schema enforces the full `ItemOutput` shape (minus `too
 ## 4. Failure Modes and Production Eval
 
 **Failure modes to watch:**
-- **Safeguarding miss (highest severity):** Claude could classify a P0 item as P2 if safeguarding language is indirect or ambiguous. Mitigation: add a dedicated pre-classification safeguarding check before the main agentic loop.
+- **Safeguarding miss (highest severity):** Mitigated with a two-layer defence — a keyword pre-scan injects a warning into Claude's prompt, and a post-loop override forces P0 if the keyword scan flagged the item but Claude under-classified it. Residual risk: subtle or indirect harm language that no keyword matches.
 - **Over-escalation:** The system prompt warns against this explicitly, but edge-cases (e.g. a parent who says a child "fell") could still over-trigger.
-- **LLM hallucination of field values:** Claude could fabricate a `task_id` in `task_ids` rather than copying it from the tool result. Current mitigation: the system prompt explicitly instructs Claude to copy IDs from tool results; production mitigation would be to derive `task_ids` from the trace rather than trusting Claude's output.
+- **LLM hallucination of field values:** Mitigated — `task_ids` and `escalation` are derived directly from the audit trace, not from Claude's output fields.
 - **Guardian mismatch false positives:** The patient search is name+DOB fuzzy — a different child with the same DOB could trigger a false mismatch flag.
-- **Rate limits / latency:** Parallel processing (concurrency=3) reduces total runtime but a burst of long items could still hit API rate limits; no retry/backoff is implemented.
+- **Rate limits / latency:** Each Claude call retries up to 3x with exponential backoff. A sustained outage or hard rate limit would still fail after exhausting retries.
 - **Agent crash on a single item:** Handled — each item has an isolated try/catch; a failure produces a `requires_human_review: true` fallback record and processing continues for remaining items.
 
 **Production eval approach:**
@@ -157,8 +157,6 @@ The `submit_triage` tool schema enforces the full `ItemOutput` shape (minus `too
 
 ## 5. What I Chose Not to Build, and Why
 
-- **Retry logic with backoff:** A single failed API call will crash the run. In production this is essential; for this demo the failure mode is obvious and recoverable by re-running.
-- **Deriving `task_ids` from the trace:** More robust than relying on Claude to copy IDs correctly, but adds code complexity. The current approach is validated by the output schema and sufficient for the prototype.
 - **Confidence scores per triage decision:** Would be valuable for a human-review queue (e.g. "surface P0 items where confidence < 0.9 for immediate clinical lead review") but out of scope for this exercise.
 - **A streaming/progressive output mode:** Would let staff see triage results as they arrive rather than waiting for the full batch. Worth building for production UX.
 
